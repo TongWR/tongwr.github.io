@@ -19,8 +19,6 @@ I hope you find some of it useful.
 
 > “Personally I am very fond of strawberries and cream, but I have found that for some strange reason, fish prefer worms. So when I went fishing, I didn’t think about what I wanted. I thought about what they wanted. I didn’t bait the hook with strawberries and cream. Rather, I dangled a worm or a grasshopper in front of the fish and said: ‘Wouldn’t you like to have that?’” – *How to Win Friends & Influence People*, Dale Carnegie
 
-Profound.
-
 I meet a lot people in my life, we all do. And – usually, upon the first encounter – I put each of these strangers into one of the baskets: allies, enemies, and don’t cares.
 
 Most belong to “don’t cares.”
