@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>MC49 Calculator</title>
+
+  <script
+  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+  integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc="
+  crossorigin="anonymous"></script>
+</head>
+
+<style>
+.page-title {
+  text-align: center;
+}
+
+.purchase-form__item-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.purchase-form__item-count {
+  width: 60px;
+}
+
+.purchase-form__item--hidden, .purchase-form__item-count-option--hidden {
+  display: none;
+}
+
+#full-price {
+  color: #777;
+  text-decoration: line-through;
+}
+
+.promo {
+  color: red;
+  font-size: 2em;
+}
+</style>
+
+<body>
+  <header>
+    <h1 class="page-title">MC49 Calculator</h1>
+  </header>
+  <main>
+    <form class="purchase-form">
+      <ul class="purchase-form__item-list">
+        <li class="purchase-form__item">
+          บัตร
+          <select id="ticket-count" class="purchase-form__item-count">
+            <option value="0" selected>0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
+          ใบ
+        </li>
+        <li class="purchase-form__item">
+          เสื้อ
+          <select id="polo-count" class="purchase-form__item-count">
+            <option value="0" selected>0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
+          ตัว
+        </li>
+        <li class="purchase-form__item purchase-form__item--hidden">
+          EMS
+          <select id="ems-count" class="purchase-form__item-count">
+            <option value="0" selected>0</option>
+            <option value="1">1</option>
+            <option class="purchase-form__item-count-option--hidden" value="2">2</option>
+            <option class="purchase-form__item-count-option--hidden" value="3">3</option>
+            <option class="purchase-form__item-count-option--hidden" value="4">4</option>
+            <option class="purchase-form__item-count-option--hidden" value="5">5</option>
+            <option class="purchase-form__item-count-option--hidden" value="6">6</option>
+            <option class="purchase-form__item-count-option--hidden" value="7">7</option>
+            <option class="purchase-form__item-count-option--hidden" value="8">8</option>
+            <option class="purchase-form__item-count-option--hidden" value="9">9</option>
+            <option class="purchase-form__item-count-option--hidden" value="10">10</option>
+          </select>
+          ตัว
+        </li>
+      </ul>
+    </form>
+    <section class="price-display">
+      <p class="prices"><span id="full-price"></span> <span id="total-price"></span></p>
+    </section>
+  </main>
+</body>
+
+<script>
+$(function() {
+  var $ticketCount = $('#ticket-count'),
+      $poloCount = $('#polo-count'),
+      $emsCount = $('#ems-count'),
+      $emsItem = $emsCount.parent(),
+      $emsOptions = $emsCount.children(),
+      $fullPrice = $('#full-price'),
+      $totalPrice = $('#total-price'),
+      ticketCount = 0,
+      poloCount = 0,
+      emsCount = 0,
+      totalPrice = 0;
+
+  $ticketCount.on('change', function() {
+    ticketCount = parseInt($ticketCount.val());
+
+    updatePrices();
+  });
+
+  $poloCount.on('change', function() {
+    poloCount = parseInt($poloCount.val());
+
+    if(poloCount === 0) {
+      $emsItem.addClass('purchase-form__item--hidden'); // hide EMS
+
+      $emsCount.val('0');
+      emsCount = 0;
+    } else {
+      updateEMSOptions();
+      if($emsItem.hasClass('purchase-form__item--hidden')) {
+        $emsItem.removeClass('purchase-form__item--hidden'); // show EMS
+      }
+    }
+
+    updatePrices();
+  });
+
+  $emsCount.on('change', function() {
+    emsCount = parseInt($emsCount.val());
+
+    updatePrices();
+  });
+
+  function updatePrices() {
+    if(isPromoApplicable()) {
+      $fullPrice.html(ticketCount*490 + poloCount*249 + emsCount*50);
+
+      if(ticketCount > poloCount) {
+        totalPrice = poloCount*690 + (ticketCount-poloCount)*490 + emsCount*50;
+      } else {
+        totalPrice = ticketCount*690 + (poloCount-ticketCount)*249 + emsCount*50;
+      }
+
+      $totalPrice.addClass('promo');
+      $totalPrice.html(totalPrice + ' บาท');
+    } else {
+      $fullPrice.html('');
+
+      $totalPrice.removeClass('promo');
+      $totalPrice.html(ticketCount*490 + poloCount*249 + emsCount*50 + ' บาท');
+    }
+  }
+
+  function isPromoApplicable() {
+    return (ticketCount > 0 && poloCount > 0);
+  }
+
+  function updateEMSOptions() {
+    if($emsCount.val() > poloCount) {
+      $emsCount.val(poloCount);
+    }
+
+    $emsOptions.each(function(index) {
+      if(index <= poloCount) {
+        $(this).removeClass('purchase-form__item-count-option--hidden');
+      } else {
+        $(this).addClass('purchase-form__item-count-option--hidden');
+      }
+    });
+  }
+});
+</script>
+
+</html>
