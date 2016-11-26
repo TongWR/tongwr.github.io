@@ -4,6 +4,7 @@
 
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
   <title>MC49 Calculator</title>
 
   <script
@@ -35,8 +36,13 @@
   padding: 0;
 }
 
+.purchase-form__item {
+  margin: 10px 0;
+}
+
 .purchase-form__item-count {
-  width: 60px;
+  width: 48px;
+  border-radius: 0;
 }
 
 .purchase-form__item--hidden, .purchase-form__item-count-option--hidden {
@@ -59,6 +65,7 @@
 
 .prices {
   text-align: center;
+  margin-bottom: 40px;
 }
 </style>
 
@@ -123,7 +130,7 @@
       </ul>
     </form>
     <section class="price-display col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
-      <p class="prices"><span id="full-price"></span> <span id="total-price"></span></p>
+      <p class="prices">ราคารวม <span id="full-price"></span> <span id="total-price"></span></p>
       <p class="purchase-form__contact-details">สอบถามรายละเอียดเพิ่มเติมทาง<br><a href="https://www.facebook.com/raomc49/">Facebook</a> หรือ <a href="https://line.me/R/ti/p/%40raomc49">LINE</a> ได้เลยจ้า </p>
     </section>
   </main>
@@ -173,6 +180,12 @@ $(function() {
     updatePrices();
   });
 
+  init();
+
+  function init() {
+    $ticketCount.val('1').trigger('change');
+  }
+
   function updatePrices() {
     if(isPromoApplicable()) {
       $fullPrice.html(ticketCount*490 + poloCount*249 + emsCount*50);
@@ -189,7 +202,7 @@ $(function() {
       $fullPrice.html('');
 
       $totalPrice.removeClass('promo');
-      $totalPrice.html(ticketCount*490 + poloCount*249 + emsCount*50 + ' บาท');
+      $totalPrice.html((ticketCount*490 + poloCount*249 + emsCount*50) + ' บาท');
     }
   }
 
