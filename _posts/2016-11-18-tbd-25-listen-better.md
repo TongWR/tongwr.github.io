@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "#25 Listen Better"
+title: "#25 Listen Better"
 date: 2016-11-18
 ---
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  Accounting
+title: Accounting
 date: 2017-03-18
 ---
 
